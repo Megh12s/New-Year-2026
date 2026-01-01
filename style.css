@@ -512,6 +512,21 @@ a.author {
     }
 }
 
+/* Extra-small devices (phones) - reduce headline and year sizes */
+@media (max-width: 480px) {
+    .happy {
+        font-size: clamp(1.0rem, 4.5vw, 2.2rem);
+    }
+
+    .sec1>span {
+        font-size: clamp(1.2rem, 9vw, 3.2rem);
+    }
+
+    .sec1 {
+        padding: 24px 12px 0 0;
+    }
+}
+
 .firework .sparkle {
     position: absolute;
     width: 4px;
