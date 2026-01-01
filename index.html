@@ -9,35 +9,37 @@
 
 <body>
 
-    <div class="happy">Happy New Year</div>
-    <div class="sec1">
-        <span>202</span>
-        <span class="current">5</span>
-        <span class="next">6</span>
-        <div class="sec2"></div>
+    <div id="app">
+        <div class="happy">Happy New Year</div>
+        <div class="sec1">
+            <span>202</span>
+            <span class="current">5</span>
+            <span class="next">6</span>
+            <div class="sec2"></div>
 
-    </div>
+        </div>
 
-    <div class="fire">
-        <div class="f1">
-            <span><i></i></span>
-            <span><i></i></span>
-            <span><i></i></span>
-        </div>
-        <div class="f2">
-            <span><i></i></span>
-            <span><i></i></span>
-            <span><i></i></span>
-        </div>
-        <div class="f3">
-            <span><i></i></span>
-            <span><i></i></span>
-            <span><i></i></span>
-        </div>
-        <div class="f4">
-            <span><i></i></span>
-            <span><i></i></span>
-            <span><i></i></span>
+        <div class="fire">
+            <div class="f1">
+                <span><i></i></span>
+                <span><i></i></span>
+                <span><i></i></span>
+            </div>
+            <div class="f2">
+                <span><i></i></span>
+                <span><i></i></span>
+                <span><i></i></span>
+            </div>
+            <div class="f3">
+                <span><i></i></span>
+                <span><i></i></span>
+                <span><i></i></span>
+            </div>
+            <div class="f4">
+                <span><i></i></span>
+                <span><i></i></span>
+                <span><i></i></span>
+            </div>
         </div>
     </div>
 
@@ -88,7 +90,12 @@
         document.addEventListener('click', function (event) {
             if (sound) sound.play().catch(() => startBufferFallback());
             else startBufferFallback();
-            createFirework(event.clientX, event.clientY);
+            // compute coordinates relative to #app container
+            const container = document.getElementById('app') || document.body;
+            const rect = container.getBoundingClientRect();
+            const x = event.clientX;
+            const y = event.clientY;
+            createFirework(x, y);
         });
 
         function createFirework(x, y) {
@@ -98,43 +105,66 @@
             fw.style.top = y + 'px';
 
             const colors = ['#ff5f6d', '#ffc371', '#7bf1a8', '#7a8fe8', '#f48fd1', '#ffd166'];
-            const count = 48 + Math.floor(Math.random() * 40);
+
+            // adapt particle count and speed to device size for performance
+            const w = window.innerWidth;
+            let minCount = 48, maxCount = 88, minSpeed = 80, maxSpeed = 300;
+            if (w <= 600) { // mobile
+                minCount = 18; maxCount = 36; minSpeed = 50; maxSpeed = 180;
+            } else if (w <= 1024) { // tablet
+                minCount = 32; maxCount = 56; minSpeed = 60; maxSpeed = 220;
+            }
+
+            const count = minCount + Math.floor(Math.random() * (maxCount - minCount + 1));
             for (let i = 0; i < count; i++) {
                 const p = document.createElement('div');
                 p.className = 'particle';
                 const angle = Math.random() * Math.PI * 2;
-                const speed = 80 + Math.random() * 220;
+                const speed = minSpeed + Math.random() * (maxSpeed - minSpeed);
                 const dx = Math.cos(angle) * speed + 'px';
                 const dy = Math.sin(angle) * speed + 'px';
                 p.style.setProperty('--dx', dx);
                 p.style.setProperty('--dy', dy);
-                const size = 6 + Math.random() * 12;
+                const size = (w <= 600) ? (4 + Math.random() * 8) : (6 + Math.random() * 14);
                 p.style.width = size + 'px';
                 p.style.height = size + 'px';
                 p.style.background = colors[Math.floor(Math.random() * colors.length)];
-                // slightly vary duration
-                p.style.animationDuration = (900 + Math.random() * 700) + 'ms';
+                p.style.animationDuration = (800 + Math.random() * 800) + 'ms';
                 fw.appendChild(p);
             }
 
-            // sparkle center
             const sp = document.createElement('div');
             sp.className = 'sparkle';
-            sp.style.left = '0px';
-            sp.style.top = '0px';
             fw.appendChild(sp);
 
-            document.body.appendChild(fw);
-            setTimeout(() => fw.remove(), 2000);
+            const container = document.getElementById('app') || document.body;
+            // position already set relative to container in calling code
+            container.appendChild(fw);
+            setTimeout(() => fw.remove(), 2200);
         }
 
-        // Auto-launch sporadic fireworks to create a show
+        // support touchstart for mobile (use first touch point)
+        document.addEventListener('touchstart', function (e) {
+            if (!e.touches || e.touches.length === 0) return;
+            const t = e.touches[0];
+            const container = document.getElementById('app') || document.body;
+            const rect = container.getBoundingClientRect();
+            createFirework(t.clientX, t.clientY);
+        }, { passive: true });
+
+        // Auto-launch sporadic fireworks; adjust frequency by device
         (function autoLaunch() {
             function schedule() {
-                const delay = 900 + Math.random() * 1500;
+                const w = window.innerWidth;
+                let delayMin = 900, delayMax = 2400;
+                if (w <= 600) { delayMin = 1400; delayMax = 4200; }
+                else if (w <= 1024) { delayMin = 1100; delayMax = 3000; }
+                const delay = delayMin + Math.random() * (delayMax - delayMin);
                 setTimeout(() => {
-                    const x = window.innerWidth * (0.1 + Math.random() * 0.8);
-                    const y = window.innerHeight * (0.15 + Math.random() * 0.6);
+                    const container = document.getElementById('app') || document.body;
+                    const rect = container.getBoundingClientRect();
+                    const x = rect.left + rect.width * (0.1 + Math.random() * 0.8);
+                    const y = rect.top + rect.height * (0.15 + Math.random() * 0.6);
                     createFirework(x, y);
                     schedule();
                 }, delay);
