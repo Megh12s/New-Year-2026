@@ -64,7 +64,6 @@ html {
     color: #7a8fe8;
 }
 
-
 .sec1>span {
     font-family: 'Montserrat', sans-serif;
     font-size: 175px;
@@ -78,7 +77,6 @@ span.current {
     right: 50%;
     margin-right: -14%;
     animation: vai_2016 5s ease-in-out 5s forwards;
-    padding: -14%, 0%, 0%;
 }
 
 span.next {
@@ -86,7 +84,6 @@ span.next {
     right: 0%;
     margin-right: -14%;
     animation: vem_2017 6s ease-in-out forwards;
-    padding: -14%, 0%, 0%;
 }
 
 span.next:before {
@@ -141,12 +138,10 @@ span.next:before {
     display: block;
     background: #fff;
     border-radius: 0px 0px 3px 3px;
-
     position: absolute;
     left: 50%;
     margin-left: -2px;
     bottom: -110px;
-
 }
 
 .fire {
@@ -199,9 +194,7 @@ span.next:before {
     animation: estoura_fire 0.5s ease-out;
     animation-iteration-count: 1;
     animation-fill-mode: forwards;
-
     animation-delay: 1.5s;
-
 }
 
 .fire>div span:nth-child(1) {
@@ -303,7 +296,7 @@ a.author {
 
     50% {
         right: 50%;
-        margin-right: -200px;
+        margin-right: -300px;
         top: 50%;
     }
 
@@ -343,7 +336,6 @@ a.author {
 
     100% {
         margin-top: -200px;
-        ;
         opacity: 1;
     }
 }
@@ -387,7 +379,6 @@ a.author {
         transform: scale(1);
     }
 }
-
 
 @keyframes estoura_fire {
     0% {
@@ -504,64 +495,5 @@ a.author {
 
     .firework .particle {
         animation-duration: 1000ms;
-    }
-}
-
-@media (min-width: 601px) and (max-width: 1024px) {
-    .firework .particle {
-        animation-duration: 1100ms;
-    }
-}
-
-/* Extra-small devices (phones) - reduce headline and year sizes */
-@media (max-width: 480px) {
-    .happy {
-        font-size: clamp(1.0rem, 4.5vw, 2.2rem);
-    }
-
-    .sec1>span {
-        font-size: clamp(1.2rem, 9vw, 3.2rem);
-    }
-
-    .sec1 {
-        padding: 24px 12px 0 0;
-    }
-}
-
-/* Scale the whole app for small screens */
-@media (max-width: 480px) {
-    #app {
-        transform: scale(0.78);
-        transform-origin: top center;
-        width: 100%;
-        margin: 0 auto;
-    }
-}
-
-.firework .sparkle {
-    position: absolute;
-    width: 4px;
-    height: 4px;
-    border-radius: 50%;
-    background: #fff;
-    opacity: 0;
-    transform: translate(-50%, -50%) scale(0.6);
-    animation: sparkle 900ms ease-out forwards;
-}
-
-@keyframes sparkle {
-    0% {
-        opacity: 0;
-        transform: translate(-50%, -50%) scale(0.6);
-    }
-
-    30% {
-        opacity: 1;
-        transform: translate(-50%, -50%) scale(1.1);
-    }
-
-    100% {
-        opacity: 0;
-        transform: translate(-50%, -50%) scale(0.2);
     }
 }
