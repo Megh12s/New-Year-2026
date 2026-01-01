@@ -28,6 +28,21 @@ html {
     animation: vem_happy 3s ease-in 9s forwards;
 }
 
+.happy {
+    width: 100%;
+    font-family: 'Pacifico', cursive;
+    font-size: clamp(1.8rem, 6vw, 4.5rem);
+    font-weight: 700;
+    color: #f48fd1;
+    text-align: center;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    opacity: 0;
+    animation: vem_happy 3s ease-in 9s forwards;
+}
+
 .sec1 {
     position: absolute;
     top: 0;
@@ -40,6 +55,13 @@ html {
     align-items: center;
     overflow: hidden;
     padding: 200px 100px 0px 0px;
+}
+
+.sec1>span {
+    font-family: 'Montserrat', sans-serif;
+    font-size: clamp(2rem, 10vw, 9rem);
+    font-weight: 700;
+    color: #7a8fe8;
 }
 
 
@@ -436,6 +458,15 @@ a.author {
     mix-blend-mode: screen;
 }
 
+.firework .particle {
+    position: absolute;
+    border-radius: 50%;
+    transform: translate(-50%, -50%) scale(1);
+    will-change: transform, opacity;
+    animation: fw-shoot 1200ms cubic-bezier(.2, .8, .2, 1) forwards;
+    mix-blend-mode: screen;
+}
+
 @keyframes fw-shoot {
     0% {
         transform: translate(-50%, -50%) scale(1);
@@ -445,6 +476,39 @@ a.author {
     100% {
         transform: translate(calc(var(--dx)), calc(var(--dy))) scale(0.2);
         opacity: 0;
+    }
+}
+
+@keyframes fw-shoot {
+    0% {
+        transform: translate(-50%, -50%) scale(1);
+        opacity: 1;
+    }
+
+    70% {
+        opacity: 1;
+    }
+
+    100% {
+        transform: translate(calc(var(--dx)), calc(var(--dy))) scale(0.2);
+        opacity: 0;
+    }
+}
+
+/* responsive tweaks */
+@media (max-width: 600px) {
+    .sec1 {
+        padding: 40px 20px 0 0;
+    }
+
+    .firework .particle {
+        animation-duration: 1000ms;
+    }
+}
+
+@media (min-width: 601px) and (max-width: 1024px) {
+    .firework .particle {
+        animation-duration: 1100ms;
     }
 }
 
